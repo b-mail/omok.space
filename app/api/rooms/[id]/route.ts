@@ -6,10 +6,10 @@ import { pusherServer } from "@/lib/pusher";
 
 export async function GET(
   req: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const roomId = params.id;
+    const { id: roomId } = await params;
     const room = await prisma.room.findUnique({
       where: { id: roomId },
       include: { game: true },
@@ -31,11 +31,11 @@ export async function GET(
 
 export async function POST(
   req: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await getServerSession(authOptions);
-    const roomId = params.id;
+    const { id: roomId } = await params;
     const { action, ...data } = await req.json();
 
     if (!session?.user) {

@@ -7,11 +7,11 @@ import { checkWin, isBanMove } from "@/lib/game/omok";
 
 export async function POST(
   req: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await getServerSession(authOptions);
-    const roomId = params.id;
+    const { id: roomId } = await params;
     const { x, y } = await req.json();
 
     if (!session?.user) {
