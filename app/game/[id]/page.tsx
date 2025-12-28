@@ -74,6 +74,8 @@ function GameContent() {
   const [participants, setParticipants] = useState<
     { id: string; name: string; role: string }[]
   >([]);
+  const [isConnected, setIsConnected] = useState(false);
+  const [socketError, setSocketError] = useState<string | null>(null);
 
   useEffect(() => {
     if (status !== "authenticated" || !session?.user || !roomId) return;
@@ -85,6 +87,23 @@ function GameContent() {
     const s = io();
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setSocket(s);
+
+    s.on("connect", () => {
+      console.log("Socket connected");
+      setIsConnected(true);
+      setSocketError(null);
+    });
+
+    s.on("connect_error", (err) => {
+      console.error("Socket connection error:", err);
+      setIsConnected(false);
+      setSocketError("서버 연결에 실패했습니다.");
+    });
+
+    s.on("disconnect", () => {
+      console.log("Socket disconnected");
+      setIsConnected(false);
+    });
 
     const joinRoom = (passwordOverride?: string) => {
       s.emit("join-room", {
@@ -289,8 +308,15 @@ function GameContent() {
           <span className='hidden sm:inline'>나가기</span>
         </button>
 
-        {/* Room Title with Marquee */}
         <div className='flex items-center gap-3 glass px-6 py-2 rounded-full border border-white/10 shadow-xl max-w-[60vw] sm:max-w-md overflow-hidden'>
+          <div
+            className={`w-2 h-2 rounded-full ${
+              isConnected
+                ? "bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.6)]"
+                : "bg-red-500 animate-pulse"
+            }`}
+            title={isConnected ? "연결됨" : "연결 안됨"}
+          />
           <div className='relative w-full overflow-hidden'>
             {/* We use a simple CSS-based marquee or Framer Motion loop */}
             <div className='flex items-center justify-center w-full'>

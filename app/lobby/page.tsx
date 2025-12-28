@@ -27,6 +27,7 @@ export default function LobbyPage() {
 
       socket.on("connect", () => {
         console.log("Lobby socket connected");
+        setIsConnected(true); // Set connected status
         socket?.emit("track-user", {
           dbUserId: (session.user as any).id,
           userName: session.user?.name || "사용자",
@@ -40,6 +41,12 @@ export default function LobbyPage() {
 
       socket.on("disconnect", () => {
         console.log("Lobby socket disconnected");
+        setIsConnected(false); // Set disconnected status
+      });
+
+      socket.on("connect_error", () => {
+        console.log("Lobby socket connection error");
+        setIsConnected(false); // Set disconnected status on error
       });
 
       // Periodic refresh just in case
@@ -56,6 +63,7 @@ export default function LobbyPage() {
   }, [status, router, session, session?.user]);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isConnected, setIsConnected] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     password: "",
@@ -113,6 +121,20 @@ export default function LobbyPage() {
           </div>
 
           <div className='flex items-center gap-4'>
+            <div
+              className={`flex items-center gap-2 px-3 py-1.5 rounded-full glass border border-white/5 text-xs font-medium ${
+                isConnected ? "text-green-400" : "text-red-400 animate-pulse"
+              }`}
+            >
+              <div
+                className={`w-1.5 h-1.5 rounded-full ${
+                  isConnected
+                    ? "bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.6)]"
+                    : "bg-red-500"
+                }`}
+              />
+              {isConnected ? "Server Online" : "Server Offline"}
+            </div>
             <div className='flex items-center gap-3 glass px-4 py-2 rounded-full border border-white/5'>
               <div className='w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center border border-white/20'>
                 <span className='text-xs font-bold text-primary'>
