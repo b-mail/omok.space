@@ -1,0 +1,561 @@
+nohup: ignoring input
+
+> omok@0.1.0 dev
+> ts-node --project tsconfig.server.json server.ts
+
+⚠ The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+> Ready on http://localhost:3000
+[Socket iQSpl7uPYHqPbXX8AAAB] Connected
+[Socket iQSpl7uPYHqPbXX8AAAB] Joining room zmj47 as asf
+[Room zmj47] Status Update: 1 users, Black: asf, White: undefined
+[Server] Generating roomList. Total roomPlayers entries: 1
+[Server] Room zmj47: size=1, black=asf, white=undefined
+[Server] Generated 1 rooms
+[Server] Generating roomList. Total roomPlayers entries: 1
+[Server] Room zmj47: size=1, black=asf, white=undefined
+[Server] Generated 1 rooms
+[Server] Broadcasting room list to 0 users in lobby
+[Socket djV6fPbN2asBfuW6AAAD] Connected
+[Server] Generating roomList. Total roomPlayers entries: 1
+[Server] Room zmj47: size=1, black=asf, white=undefined
+[Server] Generated 1 rooms
+[Server] Generating roomList. Total roomPlayers entries: 1
+[Server] Room zmj47: size=1, black=asf, white=undefined
+[Server] Generated 1 rooms
+[Server] Generating roomList. Total roomPlayers entries: 1
+[Server] Room zmj47: size=1, black=asf, white=undefined
+[Server] Generated 1 rooms
+[Socket djV6fPbN2asBfuW6AAAD] Tracking user agasdgsag
+[Server] Generating roomList. Total roomPlayers entries: 1
+[Server] Room zmj47: size=1, black=asf, white=undefined
+[Server] Generated 1 rooms
+[Server] Generating roomList. Total roomPlayers entries: 1
+[Server] Room zmj47: size=1, black=asf, white=undefined
+[Server] Generated 1 rooms
+[Server] Generating roomList. Total roomPlayers entries: 1
+[Server] Room zmj47: size=1, black=asf, white=undefined
+[Server] Generated 1 rooms
+[Server] Generating roomList. Total roomPlayers entries: 1
+[Server] Room zmj47: size=1, black=asf, white=undefined
+[Server] Generated 1 rooms
+ GET /api/auth/session 200 in 4.9s (compile: 4.8s, render: 61ms)
+ GET /api/auth/session 200 in 4.9s (compile: 4.8s, render: 66ms)
+[Socket djV6fPbN2asBfuW6AAAD] agasdgsag disconnected
+[Socket iQSpl7uPYHqPbXX8AAAB] asf disconnected
+[Room zmj47] Status Update: 0 users, Black: undefined, White: undefined
+[Server] Generating roomList. Total roomPlayers entries: 1
+[Server] Room zmj47: size=0, black=undefined, white=undefined
+[Server] Generated 1 rooms
+[Room zmj47] Deleted (Empty)
+[Server] Generating roomList. Total roomPlayers entries: 0
+[Server] Generated 0 rooms
+[Server] Broadcasting room list to 0 users in lobby
+[Socket 2pda8OKIU9I5DeqnAAAG] Connected
+[Socket XinsVzI-wgxZH54aAAAH] Connected
+[Socket 2pda8OKIU9I5DeqnAAAG] Tracking user agasdgsag
+[Server] Generating roomList. Total roomPlayers entries: 0
+[Server] Generated 0 rooms
+[Socket XinsVzI-wgxZH54aAAAH] Joining room zmj47 as asf
+[Room zmj47] Status Update: 1 users, Black: asf, White: undefined
+[Server] Generating roomList. Total roomPlayers entries: 1
+[Server] Room zmj47: size=1, black=asf, white=undefined
+[Server] Generated 1 rooms
+[Server] Generating roomList. Total roomPlayers entries: 1
+[Server] Room zmj47: size=1, black=asf, white=undefined
+[Server] Generated 1 rooms
+[Server] Broadcasting room list to 1 users in lobby
+[Socket 2pda8OKIU9I5DeqnAAAG] agasdgsag disconnected
+ GET /lobby 200 in 3.3s (compile: 1631ms, proxy.ts: 54ms, render: 1649ms)
+ GET /api/auth/session 200 in 19ms (compile: 12ms, render: 7ms)
+[Socket cS0P9jMP9dqQTzHrAAAJ] Connected
+[Socket cS0P9jMP9dqQTzHrAAAJ] Tracking user agasdgsag
+[Server] Generating roomList. Total roomPlayers entries: 1
+[Server] Room zmj47: size=1, black=asf, white=undefined
+[Server] Generated 1 rooms
+ GET /api/auth/session 200 in 11ms (compile: 2ms, render: 8ms)
+ GET /api/auth/session 200 in 11ms (compile: 4ms, render: 7ms)
+[Socket cS0P9jMP9dqQTzHrAAAJ] agasdgsag disconnected
+[Socket DTryI2id3GYOskt1AAAL] Connected
+[Socket XinsVzI-wgxZH54aAAAH] asf disconnected
+[Room zmj47] Status Update: 0 users, Black: undefined, White: undefined
+[Server] Generating roomList. Total roomPlayers entries: 1
+[Server] Room zmj47: size=0, black=undefined, white=undefined
+[Server] Generated 1 rooms
+[Room zmj47] Deleted (Empty)
+[Server] Generating roomList. Total roomPlayers entries: 0
+[Server] Generated 0 rooms
+[Server] Broadcasting room list to 0 users in lobby
+[Socket DTryI2id3GYOskt1AAAL] Tracking user agasdgsag
+[Server] Generating roomList. Total roomPlayers entries: 0
+[Server] Generated 0 rooms
+[Socket GkyCnQvCmnLfCtkYAAAN] Connected
+[Socket GkyCnQvCmnLfCtkYAAAN] Joining room zmj47 as asf
+[Room zmj47] Status Update: 1 users, Black: asf, White: undefined
+[Server] Generating roomList. Total roomPlayers entries: 1
+[Server] Room zmj47: size=1, black=asf, white=undefined
+[Server] Generated 1 rooms
+[Server] Generating roomList. Total roomPlayers entries: 1
+[Server] Room zmj47: size=1, black=asf, white=undefined
+[Server] Generated 1 rooms
+[Server] Broadcasting room list to 1 users in lobby
+ GET /game/zmj47?name=aggasg&allowSpectators=true 200 in 4.4s (compile: 4.0s, proxy.ts: 52ms, render: 391ms)
+[Socket GkyCnQvCmnLfCtkYAAAN] asf disconnected
+[Room zmj47] Status Update: 0 users, Black: undefined, White: undefined
+[Server] Generating roomList. Total roomPlayers entries: 1
+[Server] Room zmj47: size=0, black=undefined, white=undefined
+[Server] Generated 1 rooms
+[Room zmj47] Deleted (Empty)
+[Server] Generating roomList. Total roomPlayers entries: 0
+[Server] Generated 0 rooms
+[Server] Broadcasting room list to 1 users in lobby
+ GET /api/auth/session 200 in 7ms (compile: 1531µs, render: 5ms)
+[Socket zysqrd95b17CYXvRAAAP] Connected
+ GET /api/auth/session 200 in 10ms (compile: 1983µs, render: 8ms)
+ GET /api/auth/session 200 in 10ms (compile: 4ms, render: 6ms)
+[Socket DTryI2id3GYOskt1AAAL] agasdgsag disconnected
+[Socket -kTP0CgPG_SulileAAAR] Connected
+[Socket -kTP0CgPG_SulileAAAR] Tracking user agasdgsag
+[Server] Generating roomList. Total roomPlayers entries: 0
+[Server] Generated 0 rooms
+[Socket xJEQWFjpVYJMoTz-AAAT] Connected
+[Socket xJEQWFjpVYJMoTz-AAAT] Joining room zmj47 as asf
+[Room zmj47] Status Update: 1 users, Black: asf, White: undefined
+[Server] Generating roomList. Total roomPlayers entries: 1
+[Server] Room zmj47: size=1, black=asf, white=undefined
+[Server] Generated 1 rooms
+[Server] Generating roomList. Total roomPlayers entries: 1
+[Server] Room zmj47: size=1, black=asf, white=undefined
+[Server] Generated 1 rooms
+[Server] Broadcasting room list to 1 users in lobby
+ GET /game/zmj47 200 in 26ms (compile: 13ms, proxy.ts: 3ms, render: 10ms)
+[Socket -kTP0CgPG_SulileAAAR] agasdgsag disconnected
+[Socket 63npWJD9mxUPMm9mAAAW] Connected
+[Socket 63npWJD9mxUPMm9mAAAW] Joining room zmj47 as agasdgsag
+[Room zmj47] Status Update: 2 users, Black: asf, White: agasdgsag
+[Server] Generating roomList. Total roomPlayers entries: 1
+[Server] Room zmj47: size=2, black=asf, white=agasdgsag
+[Server] Generated 1 rooms
+[Server] Generating roomList. Total roomPlayers entries: 1
+[Server] Room zmj47: size=2, black=asf, white=agasdgsag
+[Server] Generated 1 rooms
+[Server] Broadcasting room list to 0 users in lobby
+[Socket 63npWJD9mxUPMm9mAAAW] agasdgsag disconnected
+[Room zmj47] Status Update: 1 users, Black: asf, White: undefined
+[Server] Generating roomList. Total roomPlayers entries: 1
+[Server] Room zmj47: size=1, black=asf, white=undefined
+[Server] Generated 1 rooms
+[Server] Generating roomList. Total roomPlayers entries: 1
+[Server] Room zmj47: size=1, black=asf, white=undefined
+[Server] Generated 1 rooms
+[Server] Broadcasting room list to 0 users in lobby
+[Socket m4oeGeWR7RjYgL3DAAAZ] Connected
+[Socket m4oeGeWR7RjYgL3DAAAZ] Tracking user agasdgsag
+[Server] Generating roomList. Total roomPlayers entries: 1
+[Server] Room zmj47: size=1, black=asf, white=undefined
+[Server] Generated 1 rooms
+ GET /game/zmj47 200 in 23ms (compile: 12ms, proxy.ts: 3ms, render: 9ms)
+[Socket m4oeGeWR7RjYgL3DAAAZ] agasdgsag disconnected
+[Socket q0dZndAxs3y1Y4onAAAc] Connected
+[Socket q0dZndAxs3y1Y4onAAAc] Joining room zmj47 as agasdgsag
+[Room zmj47] Status Update: 2 users, Black: asf, White: agasdgsag
+[Server] Generating roomList. Total roomPlayers entries: 1
+[Server] Room zmj47: size=2, black=asf, white=agasdgsag
+[Server] Generated 1 rooms
+[Server] Generating roomList. Total roomPlayers entries: 1
+[Server] Room zmj47: size=2, black=asf, white=agasdgsag
+[Server] Generated 1 rooms
+[Server] Broadcasting room list to 0 users in lobby
+[Socket q0dZndAxs3y1Y4onAAAc] agasdgsag disconnected
+[Room zmj47] Status Update: 1 users, Black: asf, White: undefined
+[Server] Generating roomList. Total roomPlayers entries: 1
+[Server] Room zmj47: size=1, black=asf, white=undefined
+[Server] Generated 1 rooms
+[Server] Generating roomList. Total roomPlayers entries: 1
+[Server] Room zmj47: size=1, black=asf, white=undefined
+[Server] Generated 1 rooms
+[Server] Broadcasting room list to 0 users in lobby
+[Socket ZTcWB9fON_PO-ZxYAAAf] Connected
+[Socket ZTcWB9fON_PO-ZxYAAAf] Tracking user agasdgsag
+[Server] Generating roomList. Total roomPlayers entries: 1
+[Server] Room zmj47: size=1, black=asf, white=undefined
+[Server] Generated 1 rooms
+ GET /game/zmj47 200 in 14ms (compile: 3ms, proxy.ts: 3ms, render: 8ms)
+[Socket ZTcWB9fON_PO-ZxYAAAf] agasdgsag disconnected
+[Socket Ys14X3Gkqu1EYHhhAAAi] Connected
+[Socket Ys14X3Gkqu1EYHhhAAAi] Joining room zmj47 as agasdgsag
+[Room zmj47] Status Update: 2 users, Black: asf, White: agasdgsag
+[Server] Generating roomList. Total roomPlayers entries: 1
+[Server] Room zmj47: size=2, black=asf, white=agasdgsag
+[Server] Generated 1 rooms
+[Server] Generating roomList. Total roomPlayers entries: 1
+[Server] Room zmj47: size=2, black=asf, white=agasdgsag
+[Server] Generated 1 rooms
+[Server] Broadcasting room list to 0 users in lobby
+[Socket Ys14X3Gkqu1EYHhhAAAi] agasdgsag disconnected
+[Room zmj47] Status Update: 1 users, Black: asf, White: undefined
+[Server] Generating roomList. Total roomPlayers entries: 1
+[Server] Room zmj47: size=1, black=asf, white=undefined
+[Server] Generated 1 rooms
+[Server] Generating roomList. Total roomPlayers entries: 1
+[Server] Room zmj47: size=1, black=asf, white=undefined
+[Server] Generated 1 rooms
+[Server] Broadcasting room list to 0 users in lobby
+[Socket JE8sdPi35fm8MRz-AAAl] Connected
+[Socket JE8sdPi35fm8MRz-AAAl] Tracking user agasdgsag
+[Server] Generating roomList. Total roomPlayers entries: 1
+[Server] Room zmj47: size=1, black=asf, white=undefined
+[Server] Generated 1 rooms
+ GET /game/zmj47 200 in 19ms (compile: 6ms, proxy.ts: 3ms, render: 10ms)
+[Socket JE8sdPi35fm8MRz-AAAl] agasdgsag disconnected
+[Socket HklxA7GYcB_XFI8LAAAo] Connected
+[Socket HklxA7GYcB_XFI8LAAAo] Joining room zmj47 as agasdgsag
+[Room zmj47] Status Update: 2 users, Black: asf, White: agasdgsag
+[Server] Generating roomList. Total roomPlayers entries: 1
+[Server] Room zmj47: size=2, black=asf, white=agasdgsag
+[Server] Generated 1 rooms
+[Server] Generating roomList. Total roomPlayers entries: 1
+[Server] Room zmj47: size=2, black=asf, white=agasdgsag
+[Server] Generated 1 rooms
+[Server] Broadcasting room list to 0 users in lobby
+[Socket HklxA7GYcB_XFI8LAAAo] agasdgsag disconnected
+[Room zmj47] Status Update: 1 users, Black: asf, White: undefined
+[Server] Generating roomList. Total roomPlayers entries: 1
+[Server] Room zmj47: size=1, black=asf, white=undefined
+[Server] Generated 1 rooms
+[Server] Generating roomList. Total roomPlayers entries: 1
+[Server] Room zmj47: size=1, black=asf, white=undefined
+[Server] Generated 1 rooms
+[Server] Broadcasting room list to 0 users in lobby
+[Socket Ie_T5QDgzr7_BSXlAAAr] Connected
+[Socket Ie_T5QDgzr7_BSXlAAAr] Tracking user agasdgsag
+[Server] Generating roomList. Total roomPlayers entries: 1
+[Server] Room zmj47: size=1, black=asf, white=undefined
+[Server] Generated 1 rooms
+ GET /game/zmj47 200 in 25ms (compile: 13ms, proxy.ts: 4ms, render: 8ms)
+[Socket Ie_T5QDgzr7_BSXlAAAr] agasdgsag disconnected
+[Socket FDm1pQZBztSfq7ovAAAu] Connected
+[Socket FDm1pQZBztSfq7ovAAAu] Joining room zmj47 as agasdgsag
+[Room zmj47] Status Update: 2 users, Black: asf, White: agasdgsag
+[Server] Generating roomList. Total roomPlayers entries: 1
+[Server] Room zmj47: size=2, black=asf, white=agasdgsag
+[Server] Generated 1 rooms
+[Server] Generating roomList. Total roomPlayers entries: 1
+[Server] Room zmj47: size=2, black=asf, white=agasdgsag
+[Server] Generated 1 rooms
+[Server] Broadcasting room list to 0 users in lobby
+[Socket FDm1pQZBztSfq7ovAAAu] agasdgsag disconnected
+[Room zmj47] Status Update: 1 users, Black: asf, White: undefined
+[Server] Generating roomList. Total roomPlayers entries: 1
+[Server] Room zmj47: size=1, black=asf, white=undefined
+[Server] Generated 1 rooms
+[Server] Generating roomList. Total roomPlayers entries: 1
+[Server] Room zmj47: size=1, black=asf, white=undefined
+[Server] Generated 1 rooms
+[Server] Broadcasting room list to 0 users in lobby
+[Socket WHQ_hylUhQCg18a3AAAx] Connected
+[Socket WHQ_hylUhQCg18a3AAAx] Tracking user agasdgsag
+[Server] Generating roomList. Total roomPlayers entries: 1
+[Server] Room zmj47: size=1, black=asf, white=undefined
+[Server] Generated 1 rooms
+[Server] Generating roomList. Total roomPlayers entries: 1
+[Server] Room zmj47: size=1, black=asf, white=undefined
+[Server] Generated 1 rooms
+ GET /game/qc8hrs?name=vafasf&password=1234&allowSpectators=false 200 in 28ms (compile: 14ms, proxy.ts: 3ms, render: 11ms)
+[Socket WHQ_hylUhQCg18a3AAAx] agasdgsag disconnected
+[Socket J2KnkDh2-lHo2Tf1AAA0] Connected
+[Socket J2KnkDh2-lHo2Tf1AAA0] Joining room qc8hrs as agasdgsag
+[Room qc8hrs] Status Update: 1 users, Black: agasdgsag, White: undefined
+[Server] Generating roomList. Total roomPlayers entries: 2
+[Server] Room zmj47: size=1, black=asf, white=undefined
+[Server] Room qc8hrs: size=1, black=agasdgsag, white=undefined
+[Server] Generated 2 rooms
+[Server] Generating roomList. Total roomPlayers entries: 2
+[Server] Room zmj47: size=1, black=asf, white=undefined
+[Server] Room qc8hrs: size=1, black=agasdgsag, white=undefined
+[Server] Generated 2 rooms
+[Server] Broadcasting room list to 0 users in lobby
+[Socket J2KnkDh2-lHo2Tf1AAA0] Attempting role change: black -> spectator
+[Socket J2KnkDh2-lHo2Tf1AAA0] Successfully changed to spectator
+[Room qc8hrs] Status Update: 1 users, Black: undefined, White: undefined
+[Server] Generating roomList. Total roomPlayers entries: 2
+[Server] Room zmj47: size=1, black=asf, white=undefined
+[Server] Room qc8hrs: size=1, black=undefined, white=undefined
+[Server] Generated 2 rooms
+[Socket J2KnkDh2-lHo2Tf1AAA0] Attempting role change: spectator -> black
+[Socket J2KnkDh2-lHo2Tf1AAA0] Successfully changed to black
+[Room qc8hrs] Status Update: 1 users, Black: agasdgsag, White: undefined
+[Server] Generating roomList. Total roomPlayers entries: 2
+[Server] Room zmj47: size=1, black=asf, white=undefined
+[Server] Room qc8hrs: size=1, black=agasdgsag, white=undefined
+[Server] Generated 2 rooms
+[Socket J2KnkDh2-lHo2Tf1AAA0] Attempting role change: black -> spectator
+[Socket J2KnkDh2-lHo2Tf1AAA0] Successfully changed to spectator
+[Room qc8hrs] Status Update: 1 users, Black: undefined, White: undefined
+[Server] Generating roomList. Total roomPlayers entries: 2
+[Server] Room zmj47: size=1, black=asf, white=undefined
+[Server] Room qc8hrs: size=1, black=undefined, white=undefined
+[Server] Generated 2 rooms
+[Socket J2KnkDh2-lHo2Tf1AAA0] Attempting role change: spectator -> black
+[Socket J2KnkDh2-lHo2Tf1AAA0] Successfully changed to black
+[Room qc8hrs] Status Update: 1 users, Black: agasdgsag, White: undefined
+[Server] Generating roomList. Total roomPlayers entries: 2
+[Server] Room zmj47: size=1, black=asf, white=undefined
+[Server] Room qc8hrs: size=1, black=agasdgsag, white=undefined
+[Server] Generated 2 rooms
+[Socket J2KnkDh2-lHo2Tf1AAA0] agasdgsag disconnected
+[Room qc8hrs] Status Update: 0 users, Black: undefined, White: undefined
+[Server] Generating roomList. Total roomPlayers entries: 2
+[Server] Room zmj47: size=1, black=asf, white=undefined
+[Server] Room qc8hrs: size=0, black=undefined, white=undefined
+[Server] Generated 2 rooms
+[Room qc8hrs] Deleted (Empty)
+[Server] Generating roomList. Total roomPlayers entries: 1
+[Server] Room zmj47: size=1, black=asf, white=undefined
+[Server] Generated 1 rooms
+[Server] Broadcasting room list to 0 users in lobby
+[Socket 7V5U3KFUk0U97sTmAAA3] Connected
+[Socket 7V5U3KFUk0U97sTmAAA3] Tracking user agasdgsag
+[Server] Generating roomList. Total roomPlayers entries: 1
+[Server] Room zmj47: size=1, black=asf, white=undefined
+[Server] Generated 1 rooms
+[Socket 7V5U3KFUk0U97sTmAAA3] agasdgsag disconnected
+[Socket UqUgLSgyh-FU7x17AAA5] Connected
+[Socket UqUgLSgyh-FU7x17AAA5] Tracking user agasdgsag
+[Server] Generating roomList. Total roomPlayers entries: 1
+[Server] Room zmj47: size=1, black=asf, white=undefined
+[Server] Generated 1 rooms
+✓ Compiled in 170ms
+ GET /game/zfnr3g?name=asdasd&password=asdasdasd&allowSpectators=false 200 in 29ms (compile: 16ms, proxy.ts: 3ms, render: 10ms)
+[Socket UqUgLSgyh-FU7x17AAA5] agasdgsag disconnected
+[Socket jFYQO6ikS_zG94CqAAA8] Connected
+[Socket jFYQO6ikS_zG94CqAAA8] Joining room zfnr3g as agasdgsag
+[Room zfnr3g] Status Update: 1 users, Black: agasdgsag, White: undefined
+[Server] Generating roomList. Total roomPlayers entries: 2
+[Server] Room zmj47: size=1, black=asf, white=undefined
+[Server] Room zfnr3g: size=1, black=agasdgsag, white=undefined
+[Server] Generated 2 rooms
+[Server] Generating roomList. Total roomPlayers entries: 2
+[Server] Room zmj47: size=1, black=asf, white=undefined
+[Server] Room zfnr3g: size=1, black=agasdgsag, white=undefined
+[Server] Generated 2 rooms
+[Server] Broadcasting room list to 0 users in lobby
+[Socket jFYQO6ikS_zG94CqAAA8] Attempting role change: black -> spectator
+[Socket jFYQO6ikS_zG94CqAAA8] Successfully changed to spectator
+[Room zfnr3g] Status Update: 1 users, Black: undefined, White: undefined
+[Server] Generating roomList. Total roomPlayers entries: 2
+[Server] Room zmj47: size=1, black=asf, white=undefined
+[Server] Room zfnr3g: size=1, black=undefined, white=undefined
+[Server] Generated 2 rooms
+[Socket jFYQO6ikS_zG94CqAAA8] Attempting role change: spectator -> black
+[Socket jFYQO6ikS_zG94CqAAA8] Successfully changed to black
+[Room zfnr3g] Status Update: 1 users, Black: agasdgsag, White: undefined
+[Server] Generating roomList. Total roomPlayers entries: 2
+[Server] Room zmj47: size=1, black=asf, white=undefined
+[Server] Room zfnr3g: size=1, black=agasdgsag, white=undefined
+[Server] Generated 2 rooms
+ GET /lobby 200 in 927ms (compile: 897ms, proxy.ts: 4ms, render: 26ms)
+ GET /lobby 200 in 20ms (compile: 4ms, proxy.ts: 3ms, render: 13ms)
+[Socket xJEQWFjpVYJMoTz-AAAT] asf disconnected
+[Room zmj47] Status Update: 0 users, Black: undefined, White: undefined
+[Server] Generating roomList. Total roomPlayers entries: 2
+[Server] Room zmj47: size=0, black=undefined, white=undefined
+[Server] Room zfnr3g: size=1, black=agasdgsag, white=undefined
+[Server] Generated 2 rooms
+[Room zmj47] Deleted (Empty)
+[Server] Generating roomList. Total roomPlayers entries: 1
+[Server] Room zfnr3g: size=1, black=agasdgsag, white=undefined
+[Server] Generated 1 rooms
+[Server] Broadcasting room list to 0 users in lobby
+[Socket Ez833JqfLc2rbdX7AAA_] Connected
+[Socket Ez833JqfLc2rbdX7AAA_] Tracking user asf
+[Server] Generating roomList. Total roomPlayers entries: 1
+[Server] Room zfnr3g: size=1, black=agasdgsag, white=undefined
+[Server] Generated 1 rooms
+ GET /game/zfnr3g 200 in 27ms (compile: 15ms, proxy.ts: 3ms, render: 10ms)
+[Socket Ez833JqfLc2rbdX7AAA_] asf disconnected
+[Socket rpVAjOVjSPaNmrqXAABC] Connected
+ GET /api/auth/session 200 in 26ms (compile: 13ms, render: 13ms)
+ GET /api/auth/session 200 in 27ms (compile: 20ms, render: 7ms)
+[Socket jFYQO6ikS_zG94CqAAA8] agasdgsag disconnected
+[Room zfnr3g] Status Update: 0 users, Black: undefined, White: undefined
+[Server] Generating roomList. Total roomPlayers entries: 1
+[Server] Room zfnr3g: size=0, black=undefined, white=undefined
+[Server] Generated 1 rooms
+[Room zfnr3g] Deleted (Empty)
+[Server] Generating roomList. Total roomPlayers entries: 0
+[Server] Generated 0 rooms
+[Server] Broadcasting room list to 0 users in lobby
+[Socket brSGCHUSKKLIgnMbAABF] Connected
+[Socket 4C5910N03C56U-yuAABG] Connected
+[Socket brSGCHUSKKLIgnMbAABF] Joining room zfnr3g as agasdgsag
+[Room zfnr3g] Status Update: 1 users, Black: agasdgsag, White: undefined
+[Server] Generating roomList. Total roomPlayers entries: 1
+[Server] Room zfnr3g: size=1, black=agasdgsag, white=undefined
+[Server] Generated 1 rooms
+[Server] Generating roomList. Total roomPlayers entries: 1
+[Server] Room zfnr3g: size=1, black=agasdgsag, white=undefined
+[Server] Generated 1 rooms
+[Server] Broadcasting room list to 0 users in lobby
+ GET /lobby 200 in 16ms (compile: 3ms, proxy.ts: 3ms, render: 9ms)
+[Socket K1eq-gKY9weU2U5AAABJ] Connected
+[Socket K1eq-gKY9weU2U5AAABJ] Tracking user asf
+[Server] Generating roomList. Total roomPlayers entries: 1
+[Server] Room zfnr3g: size=1, black=agasdgsag, white=undefined
+[Server] Generated 1 rooms
+[Server] Generating roomList. Total roomPlayers entries: 1
+[Server] Room zfnr3g: size=1, black=agasdgsag, white=undefined
+[Server] Generated 1 rooms
+[Server] Generating roomList. Total roomPlayers entries: 1
+[Server] Room zfnr3g: size=1, black=agasdgsag, white=undefined
+[Server] Generated 1 rooms
+[Server] Generating roomList. Total roomPlayers entries: 1
+[Server] Room zfnr3g: size=1, black=agasdgsag, white=undefined
+[Server] Generated 1 rooms
+ GET /api/auth/session 200 in 18ms (compile: 11ms, render: 7ms)
+ GET /api/auth/session 200 in 6ms (compile: 1067µs, render: 5ms)
+[Socket brSGCHUSKKLIgnMbAABF] agasdgsag disconnected
+[Room zfnr3g] Status Update: 0 users, Black: undefined, White: undefined
+[Server] Generating roomList. Total roomPlayers entries: 1
+[Server] Room zfnr3g: size=0, black=undefined, white=undefined
+[Server] Generated 1 rooms
+[Room zfnr3g] Deleted (Empty)
+[Server] Generating roomList. Total roomPlayers entries: 0
+[Server] Generated 0 rooms
+[Server] Broadcasting room list to 1 users in lobby
+[Socket D0hCSsIxr-cRdIOHAABL] Connected
+[Socket D0hCSsIxr-cRdIOHAABL] Joining room zfnr3g as agasdgsag
+[Room zfnr3g] Status Update: 1 users, Black: agasdgsag, White: undefined
+[Server] Generating roomList. Total roomPlayers entries: 1
+[Server] Room zfnr3g: size=1, black=agasdgsag, white=undefined
+[Server] Generated 1 rooms
+[Server] Generating roomList. Total roomPlayers entries: 1
+[Server] Room zfnr3g: size=1, black=agasdgsag, white=undefined
+[Server] Generated 1 rooms
+[Server] Broadcasting room list to 1 users in lobby
+ GET /game/zfnr3g 200 in 30ms (compile: 15ms, proxy.ts: 3ms, render: 12ms)
+[Socket K1eq-gKY9weU2U5AAABJ] asf disconnected
+[Socket y4NNdaW44X5Fc0BrAABO] Connected
+ GET /lobby 200 in 16ms (compile: 4ms, proxy.ts: 3ms, render: 10ms)
+[Socket RZbwBXktvUrlW5HVAABR] Connected
+[Socket RZbwBXktvUrlW5HVAABR] Tracking user asf
+[Server] Generating roomList. Total roomPlayers entries: 1
+[Server] Room zfnr3g: size=1, black=agasdgsag, white=undefined
+[Server] Generated 1 rooms
+ GET /game/zfnr3g 200 in 18ms (compile: 5ms, proxy.ts: 3ms, render: 10ms)
+[Socket RZbwBXktvUrlW5HVAABR] asf disconnected
+[Socket X0RfsKuSQyOHYDojAABU] Connected
+ GET /api/auth/session 200 in 18ms (compile: 11ms, render: 6ms)
+ GET /api/auth/session 200 in 6ms (compile: 1053µs, render: 5ms)
+[Socket D0hCSsIxr-cRdIOHAABL] agasdgsag disconnected
+[Room zfnr3g] Status Update: 0 users, Black: undefined, White: undefined
+[Server] Generating roomList. Total roomPlayers entries: 1
+[Server] Room zfnr3g: size=0, black=undefined, white=undefined
+[Server] Generated 1 rooms
+[Room zfnr3g] Deleted (Empty)
+[Server] Generating roomList. Total roomPlayers entries: 0
+[Server] Generated 0 rooms
+[Server] Broadcasting room list to 0 users in lobby
+[Socket 6KyTT9EVX3ly4xDtAABX] Connected
+[Socket IKaS4glME0i916i0AABY] Connected
+[Socket 6KyTT9EVX3ly4xDtAABX] Joining room zfnr3g as agasdgsag
+[Room zfnr3g] Status Update: 1 users, Black: agasdgsag, White: undefined
+[Server] Generating roomList. Total roomPlayers entries: 1
+[Server] Room zfnr3g: size=1, black=agasdgsag, white=undefined
+[Server] Generated 1 rooms
+[Server] Generating roomList. Total roomPlayers entries: 1
+[Server] Room zfnr3g: size=1, black=agasdgsag, white=undefined
+[Server] Generated 1 rooms
+[Server] Broadcasting room list to 0 users in lobby
+[Socket 6KyTT9EVX3ly4xDtAABX] agasdgsag disconnected
+[Room zfnr3g] Status Update: 0 users, Black: undefined, White: undefined
+[Server] Generating roomList. Total roomPlayers entries: 1
+[Server] Room zfnr3g: size=0, black=undefined, white=undefined
+[Server] Generated 1 rooms
+[Room zfnr3g] Deleted (Empty)
+[Server] Generating roomList. Total roomPlayers entries: 0
+[Server] Generated 0 rooms
+[Server] Broadcasting room list to 0 users in lobby
+✓ Compiled in 46ms
+[Socket geQH7DQcgYVnOCOlAABb] Connected
+[Socket geQH7DQcgYVnOCOlAABb] Joining room zfnr3g as agasdgsag
+[Room zfnr3g] Status Update: 1 users, Black: agasdgsag, White: undefined
+[Server] Generating roomList. Total roomPlayers entries: 1
+[Server] Room zfnr3g: size=1, black=agasdgsag, white=undefined
+[Server] Generated 1 rooms
+[Server] Generating roomList. Total roomPlayers entries: 1
+[Server] Room zfnr3g: size=1, black=agasdgsag, white=undefined
+[Server] Generated 1 rooms
+[Server] Broadcasting room list to 0 users in lobby
+[Socket bhY530oyj-s_V7R_AABc] Connected
+ GET /api/auth/session 200 in 20ms (compile: 12ms, render: 7ms)
+ GET /api/auth/session 200 in 21ms (compile: 14ms, render: 6ms)
+[Socket geQH7DQcgYVnOCOlAABb] agasdgsag disconnected
+[Room zfnr3g] Status Update: 0 users, Black: undefined, White: undefined
+[Server] Generating roomList. Total roomPlayers entries: 1
+[Server] Room zfnr3g: size=0, black=undefined, white=undefined
+[Server] Generated 1 rooms
+[Room zfnr3g] Deleted (Empty)
+[Server] Generating roomList. Total roomPlayers entries: 0
+[Server] Generated 0 rooms
+[Server] Broadcasting room list to 0 users in lobby
+[Socket ms02nTMXtGLh4OilAABf] Connected
+[Socket ms02nTMXtGLh4OilAABf] Joining room zfnr3g as agasdgsag
+[Room zfnr3g] Status Update: 1 users, Black: agasdgsag, White: undefined
+[Server] Generating roomList. Total roomPlayers entries: 1
+[Server] Room zfnr3g: size=1, black=agasdgsag, white=undefined
+[Server] Generated 1 rooms
+[Server] Generating roomList. Total roomPlayers entries: 1
+[Server] Room zfnr3g: size=1, black=agasdgsag, white=undefined
+[Server] Generated 1 rooms
+[Server] Broadcasting room list to 0 users in lobby
+[Socket ShaF9EmWmECkg40oAABg] Connected
+ GET /lobby 200 in 13ms (compile: 3ms, proxy.ts: 3ms, render: 7ms)
+[Socket o8b_9tXxjCRiOtOqAABj] Connected
+[Socket o8b_9tXxjCRiOtOqAABj] Tracking user asf
+[Server] Generating roomList. Total roomPlayers entries: 1
+[Server] Room zfnr3g: size=1, black=agasdgsag, white=undefined
+[Server] Generated 1 rooms
+ GET /game/zfnr3g 200 in 401ms (compile: 388ms, proxy.ts: 3ms, render: 10ms)
+[Socket o8b_9tXxjCRiOtOqAABj] asf disconnected
+[Socket R9_VPA90m2Vd2wMeAABm] Connected
+ GET / 200 in 923ms (compile: 294ms, render: 630ms)
+ GET /api/auth/session 200 in 18ms (compile: 12ms, render: 6ms)
+ GET /api/auth/session 200 in 6ms (compile: 1081µs, render: 5ms)
+[Socket -j1UPi5AOIlZFVRLAABo] Connected
+ GET /api/auth/session 200 in 8ms (compile: 1927µs, render: 6ms)
+[Socket Td3lusK1QdpthYusAABq] Connected
+[Socket hSUW5cq-n5hOCK_UAABt] Connected
+[Socket hSUW5cq-n5hOCK_UAABt] Tracking user asf
+[Server] Generating roomList. Total roomPlayers entries: 1
+[Server] Room zfnr3g: size=1, black=agasdgsag, white=undefined
+[Server] Generated 1 rooms
+[Socket hSUW5cq-n5hOCK_UAABt] asf disconnected
+ GET /api/auth/session 200 in 16ms (compile: 11ms, render: 5ms)
+[Socket ms02nTMXtGLh4OilAABf] agasdgsag disconnected
+[Room zfnr3g] Status Update: 0 users, Black: undefined, White: undefined
+[Server] Generating roomList. Total roomPlayers entries: 1
+[Server] Room zfnr3g: size=0, black=undefined, white=undefined
+[Server] Generated 1 rooms
+[Room zfnr3g] Deleted (Empty)
+[Server] Generating roomList. Total roomPlayers entries: 0
+[Server] Generated 0 rooms
+[Server] Broadcasting room list to 0 users in lobby
+[Socket 9ItG19kwoUDTzli_AABv] Connected
+[Socket 9ItG19kwoUDTzli_AABv] Joining room zfnr3g as agasdgsag
+[Room zfnr3g] Status Update: 1 users, Black: agasdgsag, White: undefined
+[Server] Generating roomList. Total roomPlayers entries: 1
+[Server] Room zfnr3g: size=1, black=agasdgsag, white=undefined
+[Server] Generated 1 rooms
+[Server] Generating roomList. Total roomPlayers entries: 1
+[Server] Room zfnr3g: size=1, black=agasdgsag, white=undefined
+[Server] Generated 1 rooms
+[Server] Broadcasting room list to 0 users in lobby
+[Socket 9ItG19kwoUDTzli_AABv] agasdgsag disconnected
+[Room zfnr3g] Status Update: 0 users, Black: undefined, White: undefined
+[Server] Generating roomList. Total roomPlayers entries: 1
+[Server] Room zfnr3g: size=0, black=undefined, white=undefined
+[Server] Generated 1 rooms
+[Room zfnr3g] Deleted (Empty)
+[Server] Generating roomList. Total roomPlayers entries: 0
+[Server] Generated 0 rooms
+[Server] Broadcasting room list to 0 users in lobby
