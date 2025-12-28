@@ -2,17 +2,47 @@
 
 import { useSession, signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Lock, Gamepad2, Users, Plus, Search, Eye } from "lucide-react";
-import { io, Socket } from "socket.io-client";
+import Pusher from "pusher-js";
+
+interface Room {
+  id: string;
+  name: string;
+  password?: string | null;
+  allowSpectators: boolean;
+  hostId: string;
+  blackPlayer?: string | null;
+  whitePlayer?: string | null;
+  playerCount: number;
+}
 
 export default function LobbyPage() {
   const { data: session, status } = useSession();
   const router = useRouter();
 
-  const [activeRooms, setActiveRooms] = useState<any[]>([]);
+  const [activeRooms, setActiveRooms] = useState<Room[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const [isConnected, setIsConnected] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [formData, setFormData] = useState({
+    name: "",
+    password: "",
+    allowSpectators: true,
+  });
+
+  const fetchRooms = useCallback(async () => {
+    try {
+      const res = await fetch("/api/rooms");
+      if (res.ok) {
+        const data: Room[] = await res.json();
+        setActiveRooms(data);
+      }
+    } catch (error) {
+      console.error("Failed to fetch rooms:", error);
+    }
+  }, []);
 
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -20,75 +50,58 @@ export default function LobbyPage() {
       return;
     }
 
-    let socket: Socket | null = null;
-
     if (status === "authenticated" && session?.user) {
-      socket = io(); // Connect to same host/port
+      // eslint-disable-next-line
+      void fetchRooms();
 
-      socket.on("connect", () => {
-        console.log("Lobby socket connected");
-        setIsConnected(true); // Set connected status
-        socket?.emit("track-user", {
-          dbUserId: (session.user as any).id,
-          userName: session.user?.name || "사용자",
-        });
+      const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_KEY!, {
+        cluster: process.env.NEXT_PUBLIC_PUSHER_CLUSTER!,
       });
 
-      socket.on("room-list", (rooms: any[]) => {
-        console.log("Received room list:", rooms);
-        setActiveRooms(rooms);
-      });
+      const channel = pusher.subscribe("lobby");
 
-      socket.on("disconnect", () => {
-        console.log("Lobby socket disconnected");
-        setIsConnected(false); // Set disconnected status
-      });
+      pusher.connection.bind("connected", () => setIsConnected(true));
+      pusher.connection.bind("disconnected", () => setIsConnected(false));
+      pusher.connection.bind("error", () => setIsConnected(false));
 
-      socket.on("connect_error", () => {
-        console.log("Lobby socket connection error");
-        setIsConnected(false); // Set disconnected status on error
+      channel.bind("room-list-update", () => {
+        console.log("Room list update received");
+        void fetchRooms();
       });
-
-      // Periodic refresh just in case
-      const interval = setInterval(() => {
-        socket?.emit("get-rooms");
-      }, 5000);
 
       return () => {
-        clearInterval(interval);
-        console.log("Cleaning up lobby socket");
-        socket?.disconnect();
+        pusher.unsubscribe("lobby");
+        void pusher.disconnect();
       };
     }
-  }, [status, router, session, session?.user]);
+  }, [status, router, session, fetchRooms]);
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isConnected, setIsConnected] = useState(false);
-  const [formData, setFormData] = useState({
-    name: "",
-    password: "",
-    allowSpectators: true,
-  });
+  const createRoom = async () => {
+    try {
+      const res = await fetch("/api/rooms", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
 
-  const createRoom = () => {
-    // Generate random room ID
-    const roomId = Math.random().toString(36).substring(7);
-    // Encode metadata as query params for simpler transfer (or we could use session storage)
-    const params = new URLSearchParams();
-    if (formData.name) params.set("name", formData.name);
-    if (formData.password) params.set("password", formData.password);
-    params.set("allowSpectators", String(formData.allowSpectators));
-
-    router.push(`/game/${roomId}?${params.toString()}`);
+      if (res.ok) {
+        const room = await res.json();
+        router.push(`/game/${room.id}`);
+      } else {
+        const error = await res.json();
+        alert(error.error || "방 생성에 실패했습니다.");
+      }
+    } catch (error) {
+      console.error("Failed to create room:", error);
+      alert("서버 오류가 발생했습니다.");
+    }
   };
 
   return (
     <main className='min-h-screen relative overflow-hidden bg-background p-8'>
       {/* Background Ambience */}
-      <div className='absolute inset-0 z-0 pointer-events-none'>
-        <div className='absolute top-[-20%] left-[-20%] w-[60%] h-[60%] bg-primary/10 blur-[150px] rounded-full animate-pulse-slow' />
-      </div>
-
+      <div className='absolute inset-0 bg-linear-to-br from-white/10 to-transparent' />
+      <div className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4.5 h-4.5 rounded-full bg-linear-to-br from-white to-gray-400 shadow-[0.5px_1px_2px_rgba(0,0,0,0.5),inset_-0.5px_-0.5px_1px_rgba(0,0,0,0.2)]' />
       <header className='relative z-10 flex flex-col md:flex-row md:justify-between md:items-center gap-6 mb-12'>
         <div>
           <h1 className='text-4xl font-black tracking-tighter mb-2'>
@@ -161,7 +174,7 @@ export default function LobbyPage() {
           onClick={() => setIsModalOpen(true)}
           className='group relative flex flex-col items-center justify-center p-8 glass-card rounded-3xl hover:bg-white/5 transition-all hover:scale-[1.02] active:scale-[0.98] border-dashed border-2 border-white/10 hover:border-primary/50'
         >
-          <div className='w-16 h-16 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center mb-4 group-hover:shadow-[0_0_30px_rgba(123,44,191,0.5)] transition-shadow'>
+          <div className='w-16 h-16 rounded-full bg-linear-to-br from-primary to-secondary flex items-center justify-center mb-4 group-hover:shadow-[0_0_30px_rgba(123,44,191,0.5)] transition-shadow'>
             <Plus className='w-8 h-8 text-white' />
           </div>
           <h2 className='text-2xl font-bold mb-2'>방 만들기</h2>
@@ -188,11 +201,13 @@ export default function LobbyPage() {
               <div>
                 <div className='flex justify-between items-start mb-4'>
                   <span className='px-3 py-1 text-xs font-bold uppercase tracking-wider bg-white/5 rounded-full text-primary flex items-center gap-1.5'>
-                    {room.black && room.white ? "진행 중" : "대기 중"}
+                    {room.blackPlayer && room.whitePlayer
+                      ? "진행 중"
+                      : "대기 중"}
                   </span>
                   <span className='text-gray-500 text-sm flex items-center gap-2'>
-                    {room.hasPassword && <Lock className='w-3 h-3' />}#{" "}
-                    {room.id.slice(0, 6)}
+                    {room.password && <Lock className='w-3 h-3' />}#{" "}
+                    {room.id.slice(0, 4)}
                   </span>
                 </div>
                 <h3 className='text-xl font-bold mb-1 truncate'>{room.name}</h3>

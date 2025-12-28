@@ -14,3 +14,30 @@ datasource db {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
+model Room {
+  id              String   @id @default(cuid())
+  name            String
+  password        String?
+  allowSpectators Boolean  @default(true)
+  hostId          String
+  blackPlayer     String?
+  whitePlayer     String?
+  playerCount     Int      @default(0)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  game            Game?
+}
+
+model Game {
+  id            String   @id @default(cuid())
+  roomId        String   @unique
+  room          Room     @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  board         Json     // CellValue[][]
+  currentPlayer String   // 'black' or 'white'
+  moves         Json     // {x, y, player}[]
+  winner        String?  // 'black', 'white', or 'draw'
+  lastMove      Json?    // {x, y}
+  updatedAt     DateTime @updatedAt
+}
+

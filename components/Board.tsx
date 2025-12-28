@@ -77,11 +77,11 @@ function Board({
                   <motion.div
                     initial={{ scale: 0.5, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
-                    className={`w-[90%] h-[90%] rounded-full shadow-md z-10 ${
+                    className={`w-[90%] h-[90%] rounded-full shadow-lg ${
                       board[y][x] === "black"
-                        ? "bg-gradient-to-br from-gray-800 to-black"
-                        : "bg-gradient-to-br from-white to-gray-200"
-                    }`}
+                        ? "bg-linear-to-br from-gray-800 to-black ring-1 ring-white/10"
+                        : "bg-linear-to-br from-white to-gray-200 ring-1 ring-black/5"
+                    } transition-all duration-300 transform hover:scale-105`}
                   />
                 )}
               </AnimatePresence>

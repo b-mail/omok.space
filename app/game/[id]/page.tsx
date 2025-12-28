@@ -5,24 +5,44 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import Board from "@/components/Board";
 import { CellValue, Player } from "@/lib/game/omok";
-import { io, Socket } from "socket.io-client";
 import {
   Lock,
-  Eye,
-  EyeOff,
-  Gamepad2,
-  Users,
   X,
-  Shield,
-  Globe,
   Settings,
-  Plus,
-  Trash2,
   Ban,
-  Save,
   ChevronDown,
+  Trash2,
+  Save,
 } from "lucide-react";
 import { useSession } from "next-auth/react";
+
+import Pusher from "pusher-js";
+
+interface ExtendedUser {
+  id: string;
+  name?: string | null;
+  email?: string | null;
+  image?: string | null;
+}
+
+interface Room {
+  id: string;
+  name: string;
+  password?: string | null;
+  allowSpectators: boolean;
+  hostId: string;
+  blackPlayer?: string | null;
+  whitePlayer?: string | null;
+  playerCount: number;
+  participants?: Participant[];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  game?: any;
+}
+interface Participant {
+  id: string;
+  name: string;
+  role: string | Player | "spectator";
+}
 
 function GameContent() {
   const { data: session, status } = useSession();
@@ -30,15 +50,14 @@ function GameContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  // Room Metadata from URL (for creation)
+  // Room Metadata from URL (for creation) - these are now only read once, not state
   const metaName = searchParams.get("name");
   const metaPassword = searchParams.get("password");
   const metaAllowSpectators = searchParams.get("allowSpectators") !== "false";
 
-  const [socket, setSocket] = useState<Socket | null>(null);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [authPassword, setAuthPassword] = useState("");
-  const [roomName, setRoomName] = useState(metaName || "");
+  const [roomName, setRoomName] = useState("");
   const [allowSpectators, setAllowSpectators] = useState(true);
   const [authError, setAuthError] = useState("");
   const [hostId, setHostId] = useState("");
@@ -69,171 +88,212 @@ function GameContent() {
   );
   const [winner, setWinner] = useState<Player | null>(null);
   const [playerCount, setPlayerCount] = useState(0);
+  void playerCount; // Suppress unused
   const [blackPlayerName, setBlackPlayerName] = useState<string>("");
   const [whitePlayerName, setWhitePlayerName] = useState<string>("");
-  const [participants, setParticipants] = useState<
-    { id: string; name: string; role: string }[]
-  >([]);
+  const [participants, setParticipants] = useState<Participant[]>([]);
   const [isConnected, setIsConnected] = useState(false);
-  const [socketError, setSocketError] = useState<string | null>(null);
+
+  const fetchRoomState = useCallback(
+    async (passwordOverride?: string) => {
+      try {
+        const res = await fetch(`/api/rooms/${roomId}`, {
+          method: "POST", // Use POST for join/auth, GET for simple state
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            action: "join",
+            userName: session?.user?.name || "사용자",
+            dbUserId: (session?.user as ExtendedUser)?.id,
+            metadata: {
+              name: metaName,
+              password: passwordOverride || metaPassword,
+              allowSpectators: metaAllowSpectators,
+            },
+          }),
+        });
+
+        if (res.ok) {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          const room: Room & { game: any } = await res.json();
+          setRoomName(room.name);
+          setAllowSpectators(room.allowSpectators);
+          setHostId(room.hostId);
+          setBlackPlayerName(room.blackPlayer || "");
+          setWhitePlayerName(room.whitePlayer || "");
+          setPlayerCount(room.playerCount);
+          setParticipants(room.participants || []);
+
+          if (room.game) {
+            setBoard(room.game.board);
+            setCurrentPlayer(room.game.currentPlayer);
+            setWinner(room.game.winner);
+            setLastMove(room.game.lastMove);
+          }
+
+          // Determine my role
+          const userName = session?.user?.name;
+          if (room.blackPlayer === userName) setMyRole("black");
+          else if (room.whitePlayer === userName) setMyRole("white");
+          else setMyRole("spectator");
+
+          // Init settings form
+          setSettingsForm((prev) => ({
+            ...prev,
+            name: room.name || prev.name,
+            allowSpectators: room.allowSpectators ?? prev.allowSpectators,
+          }));
+
+          setIsAuthModalOpen(false);
+          setAuthError("");
+        } else if (res.status === 401) {
+          const err = await res.json();
+          setIsAuthModalOpen(true);
+          setAuthError(err.error || "비밀번호가 필요합니다.");
+        } else if (res.status === 404) {
+          alert("방을 찾을 수 없습니다.");
+          router.push("/lobby");
+        } else {
+          const err = await res.json();
+          alert(err.error || "방 정보를 불러오는데 실패했습니다.");
+          router.push("/lobby");
+        }
+      } catch (error) {
+        console.error("Failed to fetch room state:", error);
+        alert("서버 연결에 실패했습니다.");
+        router.push("/lobby");
+      }
+    },
+    [roomId, session, metaName, metaPassword, metaAllowSpectators, router]
+  );
 
   useEffect(() => {
     if (status !== "authenticated" || !session?.user || !roomId) return;
 
-    const name = session.user.name || "사용자";
-    const id = (session.user as any).id;
+    // eslint-disable-next-line
+    fetchRoomState();
 
-    // Connect to custom server
-    const s = io();
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setSocket(s);
-
-    s.on("connect", () => {
-      console.log("Socket connected");
-      setIsConnected(true);
-      setSocketError(null);
-    });
-
-    s.on("connect_error", (err) => {
-      console.error("Socket connection error:", err);
-      setIsConnected(false);
-      setSocketError("서버 연결에 실패했습니다.");
-    });
-
-    s.on("disconnect", () => {
-      console.log("Socket disconnected");
-      setIsConnected(false);
-    });
-
-    const joinRoom = (passwordOverride?: string) => {
-      s.emit("join-room", {
-        roomId,
-        userName: name,
-        dbUserId: id,
-        metadata: {
-          name: metaName,
-          password: passwordOverride || metaPassword,
-          allowSpectators: metaAllowSpectators,
+    const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_KEY!, {
+      cluster: process.env.NEXT_PUBLIC_PUSHER_CLUSTER!,
+      authEndpoint: "/api/pusher/auth", // If using private channels
+      auth: {
+        headers: {
+          "Content-Type": "application/json",
         },
+      },
+    });
+
+    const channel = pusher.subscribe(`presence-room-${roomId}`); // Using presence channel for participants
+
+    pusher.connection.bind("connected", () => setIsConnected(true));
+    pusher.connection.bind("disconnected", () => setIsConnected(false));
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    channel.bind("pusher:subscription_succeeded", (members: any) => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const currentParticipants: any[] = [];
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      members.each((member: any) => {
+        currentParticipants.push({
+          id: member.id,
+          name: member.info.name,
+          role: member.info.role,
+        });
       });
-    };
-
-    s.on("connect", () => {
-      console.log("Connected to server");
-      joinRoom();
+      setParticipants(currentParticipants);
+      setPlayerCount(currentParticipants.length);
     });
 
-    s.on("role-assigned", (role) => {
-      setMyRole(role);
-      console.log("Assigned role:", role);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    channel.bind("pusher:member_added", (member: any) => {
+      setParticipants((prev) => [
+        ...prev,
+        { id: member.id, name: member.info.name, role: member.info.role },
+      ]);
+      setPlayerCount((prev) => prev + 1);
     });
 
-    s.on(
-      "game-state",
-      ({
-        board,
-        currentPlayer,
-        lastMove,
-        winner: currentWinner,
-        roomName: serverRoomName,
-        allowSpectators: serverAllowSpectators,
-        hostId: serverHostId,
-      }) => {
-        setBoard(board);
-        setCurrentPlayer(currentPlayer);
-        setLastMove(lastMove);
-        setWinner(currentWinner || null);
-        if (serverRoomName) setRoomName(serverRoomName);
-        if (serverAllowSpectators !== undefined)
-          setAllowSpectators(serverAllowSpectators);
-        if (serverHostId) setHostId(serverHostId);
-
-        // Init settings form
-        setSettingsForm((prev) => ({
-          ...prev,
-          name: serverRoomName || prev.name,
-          allowSpectators: serverAllowSpectators ?? prev.allowSpectators,
-        }));
-
-        setIsAuthModalOpen(false);
-      }
-    );
-
-    s.on("kicked", (msg) => {
-      alert(msg);
-      router.push("/lobby");
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    channel.bind("pusher:member_removed", (member: any) => {
+      setParticipants((prev) => prev.filter((p) => p.id !== member.id));
+      setPlayerCount((prev) => prev - 1);
     });
 
-    s.on("room-closed", (msg) => {
-      alert(msg);
-      router.push("/lobby");
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    channel.bind("stone-placed", (data: any) => {
+      setBoard(data.board);
+      setCurrentPlayer(data.nextPlayer);
+      setWinner(data.winner || null);
+      setLastMove({ x: data.x, y: data.y });
     });
 
-    s.on("game-reset", () => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    channel.bind("game-reset", (data: any) => {
+      setBoard(data.board);
+      setCurrentPlayer(data.currentPlayer);
       setWinner(null);
       setLastMove(null);
     });
 
-    s.on("stone-placed", ({ x, y, player, nextPlayer }) => {
-      setBoard((prev) => {
-        const newBoard = [...prev];
-        newBoard[y] = [...newBoard[y]];
-        newBoard[y][x] = player;
-        return newBoard;
-      });
-      setLastMove({ x, y });
-      setCurrentPlayer(nextPlayer);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    channel.bind("room-status-update", (data: any) => {
+      if (data.name !== undefined) setRoomName(data.name);
+      if (data.allowSpectators !== undefined)
+        setAllowSpectators(data.allowSpectators);
+      if (data.hostId !== undefined) setHostId(data.hostId);
+      if (data.blackPlayer !== undefined)
+        setBlackPlayerName(data.blackPlayer || "");
+      if (data.whitePlayer !== undefined)
+        setWhitePlayerName(data.whitePlayer || "");
+      if (data.participants !== undefined) setParticipants(data.participants); // This might be redundant with presence channel
+      if (data.playerCount !== undefined) setPlayerCount(data.playerCount);
+
+      // Re-evaluate my role if players changed
+      const userName = session?.user?.name;
+      if (data.blackPlayer === userName) setMyRole("black");
+      else if (data.whitePlayer === userName) setMyRole("white");
+      else setMyRole("spectator");
+
+      // Update settings form if it's open
+      setSettingsForm((prev) => ({
+        ...prev,
+        name: data.name ?? prev.name,
+        allowSpectators: data.allowSpectators ?? prev.allowSpectators,
+      }));
     });
 
-    s.on("game-ended", ({ winner }) => {
-      setWinner(winner);
+    channel.bind("kicked", (data: { message: string }) => {
+      alert(data.message);
+      router.push("/lobby");
     });
 
-    s.on(
-      "room-status",
-      ({ playerCount, blackPlayer, whitePlayer, participants }) => {
-        setPlayerCount(playerCount);
-        setBlackPlayerName(blackPlayer || "");
-        setWhitePlayerName(whitePlayer || "");
-        setParticipants(participants || []);
-      }
-    );
-
-    s.on("error", ({ message, type }) => {
-      if (type === "AUTH_REQUIRED") {
-        setIsAuthModalOpen(true);
-        if (message && message !== "비밀번호가 필요합니다.") {
-          setAuthError(message);
-        } else {
-          setAuthError("");
-        }
-
-        if (message === "비밀번호가 일치하지 않습니다.") {
-          setAuthError(message);
-        } else {
-          setAuthError("");
-        }
-      } else {
-        alert(message);
-      }
+    channel.bind("room-closed", (data: { message: string }) => {
+      alert(data.message);
+      router.push("/lobby");
     });
 
-    // Handle password submission
     const handleAuthSubmit = (password: string) => {
-      setAuthError(""); // Clear error on submit attempt
-      s.emit("join-room", {
-        roomId,
-        userName: name,
-        dbUserId: id,
-        metadata: { password },
-      });
+      setAuthPassword(password); // Update local state for input
+      void fetchRoomState(password); // Re-attempt join with password
     };
-    (s as any).submitAuth = handleAuthSubmit;
+    /* eslint-disable @typescript-eslint/no-explicit-any */
+    (window as any).submitAuth = handleAuthSubmit; // Expose globally or pass down
 
     return () => {
-      s.disconnect();
+      pusher.unsubscribe(`presence-room-${roomId}`);
+      pusher.disconnect();
+      delete (window as any).submitAuth;
     };
-  }, [roomId, status, session, metaName, metaPassword, metaAllowSpectators]);
+    /* eslint-enable @typescript-eslint/no-explicit-any */
+  }, [
+    roomId,
+    status,
+    session,
+    router,
+    metaName,
+    metaPassword,
+    metaAllowSpectators,
+    fetchRoomState,
+  ]);
 
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -241,39 +301,102 @@ function GameContent() {
     }
   }, [status, router]);
 
-  const handleChangeRole = (newRole: string) => {
+  const handleChangeRole = async (newRole: string) => {
     if (myRole === newRole) return;
-    socket?.emit("change-role", { roomId, newRole });
+    try {
+      const res = await fetch(`/api/rooms/${roomId}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "change-role", newRole }),
+      });
+      if (!res.ok) {
+        const err = await res.json();
+        alert(err.error);
+      }
+    } catch (error) {
+      console.error("Failed to change role:", error);
+    }
   };
 
-  const handleKickUser = (targetId: string) => {
+  const handleKickUser = async (targetId: string) => {
     if (!confirm("정말 이 사용자를 강퇴하시겠습니까?")) return;
-    socket?.emit("kick-user", { roomId, targetId });
+    try {
+      const res = await fetch(`/api/rooms/${roomId}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "kick-user", targetId }),
+      });
+      if (!res.ok) {
+        const err = await res.json();
+        alert(err.error);
+      }
+    } catch (error) {
+      console.error("Failed to kick user:", error);
+    }
   };
 
-  const handleDeleteRoom = () => {
+  const handleDeleteRoom = async () => {
     if (!confirm("정말 방을 삭제하시겠습니까? 모든 유저가 퇴장됩니다.")) return;
-    socket?.emit("delete-room", roomId);
+    try {
+      const res = await fetch(`/api/rooms/${roomId}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "delete-room" }),
+      });
+      if (!res.ok) {
+        const err = await res.json();
+        alert(err.error);
+      } else {
+        router.push("/lobby"); // Room deleted, redirect
+      }
+    } catch (error) {
+      console.error("Failed to delete room:", error);
+    }
   };
 
-  const handleUpdateSettings = () => {
-    socket?.emit("update-room-settings", {
-      roomId,
-      name: settingsForm.name,
-      password: settingsForm.password || undefined,
-      allowSpectators: settingsForm.allowSpectators,
-    });
-    setIsSettingsModalOpen(false);
+  const handleUpdateSettings = async () => {
+    try {
+      const res = await fetch(`/api/rooms/${roomId}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "update-settings",
+          name: settingsForm.name,
+          password: settingsForm.password || undefined,
+          allowSpectators: settingsForm.allowSpectators,
+        }),
+      });
+      if (!res.ok) {
+        const err = await res.json();
+        alert(err.error);
+      } else {
+        setIsSettingsModalOpen(false);
+      }
+    } catch (error) {
+      console.error("Failed to update settings:", error);
+    }
   };
 
   // useCallback to prevent Board re-renders
   const handlePlaceStone = useCallback(
-    (x: number, y: number) => {
+    async (x: number, y: number) => {
       if (myRole === "spectator" || myRole !== currentPlayer || winner) return;
-      socket?.emit("place-stone", { roomId, x, y });
-      setFocusedPos(null);
+      try {
+        const res = await fetch(`/api/game/${roomId}/move`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ x, y }),
+        });
+        if (!res.ok) {
+          const err = await res.json();
+          alert(err.error);
+        }
+        setFocusedPos(null);
+      } catch (error) {
+        console.error("Failed to place stone:", error);
+      }
     },
-    [myRole, currentPlayer, winner, socket, roomId]
+    [myRole, currentPlayer, winner, roomId]
   );
 
   const handleFocus = useCallback(
@@ -292,7 +415,7 @@ function GameContent() {
   // Note: Intentionally NOT changing scroll logic here
   // ...
 
-  const isHost = session?.user && (session.user as any).id === hostId;
+  const isHost = session?.user && (session.user as ExtendedUser).id === hostId;
 
   return (
     <main className='min-h-screen flex flex-col items-center bg-background relative overflow-x-hidden p-8'>
@@ -673,7 +796,15 @@ function GameContent() {
 
               <div className='space-y-4'>
                 <button
-                  onClick={() => socket?.emit("reset-game", roomId)}
+                  onClick={async () => {
+                    try {
+                      await fetch(`/api/game/${roomId}/reset`, {
+                        method: "POST",
+                      });
+                    } catch (error) {
+                      console.error("Failed to reset game:", error);
+                    }
+                  }}
                   className='w-full py-5 bg-white text-black font-black rounded-[1.5rem] hover:scale-[1.02] active:scale-[0.98] transition-all shadow-xl'
                 >
                   다시 시작
@@ -735,7 +866,8 @@ function GameContent() {
                       onChange={(e) => setAuthPassword(e.target.value)}
                       onKeyDown={(e) => {
                         if (e.key === "Enter") {
-                          (socket as any)?.submitAuth(authPassword);
+                          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                          (window as any)?.submitAuth(authPassword);
                         }
                       }}
                       autoFocus
@@ -748,7 +880,8 @@ function GameContent() {
 
                 <div className='flex flex-col gap-3'>
                   <button
-                    onClick={() => (socket as any)?.submitAuth(authPassword)}
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    onClick={() => (window as any)?.submitAuth(authPassword)}
                     className='w-full py-5 bg-white text-black font-black rounded-[1.5rem] hover:scale-[1.02] active:scale-[0.98] transition-all shadow-xl'
                   >
                     입장하기
