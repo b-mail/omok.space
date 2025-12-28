@@ -54,8 +54,16 @@ export default function LobbyPage() {
       // eslint-disable-next-line
       void fetchRooms();
 
-      const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_KEY!, {
-        cluster: process.env.NEXT_PUBLIC_PUSHER_CLUSTER!,
+      const pusherKey = process.env.NEXT_PUBLIC_PUSHER_KEY;
+      const pusherCluster = process.env.NEXT_PUBLIC_PUSHER_CLUSTER;
+
+      if (!pusherKey || !pusherCluster) {
+        console.error("Missing Pusher environment variables");
+        return;
+      }
+
+      const pusher = new Pusher(pusherKey, {
+        cluster: pusherCluster,
       });
 
       const channel = pusher.subscribe("lobby");
